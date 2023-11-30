@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store</title>
+  </head>
+  <body>
+    <button id="checkout">Pay</button>
+
+    <script>
+      const checkoutButton = document.getElementById("checkout");
+
+      checkoutButton.addEventListener("click", async () => {
+        try {
+          
+          const response = await fetch("/create-order", {//m envia el POST para obtener el init_point
+            method: "POST",
+          });
+
+          if (!response.ok) {
+            throw new Error('Hubo un error al obtener el init_point');
+          }
+
+          
+          const data = await response.json();//almacena  el init_point de la respuesta del servidor
+
+          //redirirgir al usuario a la página de pago de Mercado Pago
+          window.location.href = data.init_point;
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    </script>
+  </body>
+</html>
